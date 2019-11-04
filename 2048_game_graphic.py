@@ -4,6 +4,8 @@ import numpy as np
 import random
 import matplotlib.pyplot as plt
 
+""" 2048 pour humain, interface graphique avec Pygame"""
+
 class game:
     
     def __init__(self):
