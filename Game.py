@@ -37,7 +37,7 @@ class game:
             n = 4
         
         self.board[spot] = n
-        
+      
     def move_up(self):
         """ Stack all number up """
         for j in range(len(self.board[0])):
@@ -141,19 +141,18 @@ class game:
         self.spawnNumber()
         return True
 
-    def simulate(self,move):
-        """ Move and no spawn """
-        if move == 0:
-            self.move_left()
-        elif move == 1:
-            self.move_up()
-        elif move == 2:
-            self.move_right()
-        elif move == 3:
-            self.move_down()
-
     def playable(self,c):
         """ Check if the move is playable """
         cp = game()
         cp.board = np.copy(self.board)
         return cp.play(c)
+    
+    def game_over(self):
+        """ Return True if game over """
+        if (self.board == 0).any():
+            return False
+        return not(self.playable(0) or self.playable(1) or self.playable(2) or self.playable(3))
+
+    def case_vide(self):
+        """ Donne le nombre de cases vides """
+        return sum(sum((jeu.board == 0)))

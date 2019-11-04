@@ -5,6 +5,8 @@ from Game import *
 
 """ Fonctions auxiliares qui servent à choisir le coup suiviant """
 
+""" --- Brutus joue dans l'ordre 3,2,1,0 --- """
+
 def brutus_moves(jeu):
     while True:
         moves = [3,2,1,0]
@@ -30,6 +32,9 @@ def brutus_move(jeu):
         elif not(state):
             i += 1
     return True
+""" --- """
+
+""" Choisit et joue le prochain coup en fonction du score obtenu au coup suivant --- """
 
 def next_move(jeu):
     temp = game()
@@ -50,6 +55,9 @@ def next_move(jeu):
         return True,i
     else:
         return False,i
+"""---"""
+
+""" Essai de donner un score à la grille pour jouer comme un humain """
     
 def score_board2(jeu):
     tot_order = 0
@@ -79,6 +87,8 @@ def score_board2(jeu):
     
     tot_empty = sum(sum(jeu.board == 0))
     return tot_empty,tot_order,tot_double
+
+""" --- Comme monte carlo mais tronqué : on ne va pas jusqu'au bout --- """
 
 def chose_move_simulation(jeu,n_sim,profondeur):
     res = []
@@ -114,13 +124,48 @@ def play_move_simulation(jeu):
     else:
         return False,i
     
- def case_vide(jeu):
-    res=0
+
+def stupid_strat(jeu):
     for i in range(4):
-        for j in range(4):
-            if jeu.board[i][j]==0:
-                res+=1
-    return res
+        if jeu.playable(i):
+            return i
+    raise "Pas de coup possible"
+
+""" --- Stratégie monte carlo --- """
+
+def monte_carlo(jeu,nsim):
+    res = []
+    for i in range(4):
+        cp = game()
+        cp.board = np.copy(jeu.board)
+        scores = []
+        for n in range(nsim):
+            cp.board = np.copy(jeu.board)
+            coups = np.random.randint(0,4,1000)
+            c = 0
+            while not(cp.game_over()):
+                cp.play(coups[c%1000])
+                c += 1
+            scores.append(cp.score)
+        res.append((np.mean(scores),i))
+    res = sorted(res)
+    print(res)
+    for i in range(4):
+        if jeu.playable(res[-i-1][1]):
+            print(res[-i-1][1])
+            return res[-i-1][1]
+    raise "Pas jouable"
+
+def play_monte_carlo(nsim=100,aff=True):
+    jeu = game()
+    while not(jeu.game_over()):
+        if aff:
+            print(jeu.board)
+        decision = monte_carlo(jeu,nsim) # VALID DECISION
+        jeu.play(decision)
+    if aff:
+        print(jeu.board)
+        print(jeu.score)
     
   
 
