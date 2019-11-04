@@ -58,16 +58,3 @@ def play_monte_carlo():
     print(jeu.score)
 
 play_monte_carlo()
-
-"""
-while not(game_over(jeu)):
-    print(jeu.board)
-    decision = stupid_strat(jeu) # VALID DECISION OR NOT ?
-    jeu.play(decision)
-
-print(jeu.score)
-print(jeu.board)
-
-    
-    
-"""
