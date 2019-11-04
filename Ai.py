@@ -115,11 +115,10 @@ def play_move_simulation(jeu):
         return False,i
     
  def case_vide(jeu):
-    mat=jeu.board
     res=0
     for i in range(4):
         for j in range(4):
-            if mat[i][j]==0:
+            if jeu.board[i][j]==0:
                 res+=1
     return res
     
