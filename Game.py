@@ -1,6 +1,8 @@
 import numpy as np
 import random
 
+""" Contient toute la logique du jeu 2048 """
+
 class game:
     """classe pour un instance du jeu 2048"""
     
@@ -18,17 +20,8 @@ class game:
     def show(self):
         print(self.board)
         
-        
-    #def gameOver(self):
-    #    return not((self.board != 0).any())
-        
     def spawnNumber(self):
         """ Spawn 2 or 4 in a rand spot """
-        #Number
-        # 1 2 3 4
-        # 5 6 7 8
-        # 9 10 11 12
-        # 13 14 15 16
         empty_spot = []
         for i in range(len(self.board)):
             for j in range(len(self.board[i])):
