@@ -3,6 +3,8 @@ import random
 import matplotlib.pyplot as plt
 from Game import *
 
+""" Fonctions auxiliares qui servent à choisir le coup suiviant """
+
 def brutus_moves(jeu):
     while True:
         moves = [3,2,1,0]
