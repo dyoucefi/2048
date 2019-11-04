@@ -135,7 +135,7 @@ def stupid_strat(jeu):
 
 def monte_carlo(jeu,nsim):
     res = []
-    for i in range(4):
+    for i in jeu.liste_playable:
         cp = game()
         cp.board = np.copy(jeu.board)
         scores = []
@@ -150,10 +150,7 @@ def monte_carlo(jeu,nsim):
         res.append((np.mean(scores),i))
     res = sorted(res)
     print(res)
-    for i in range(4):
-        if jeu.playable(res[-i-1][1]):
-            print(res[-i-1][1])
-            return res[-i-1][1]
+    return res[-1][1]
     raise "Pas jouable"
 
 def play_monte_carlo(nsim=100,aff=True):
