@@ -7,6 +7,8 @@ from Ai import *
 from threading import Thread
 import time
 
+""" Monte Carlo optimisé mais pas vraiment plus rapide """
+
 class Calculateur(Thread):
     """ Calcul les mouvements selon 1 diredction """
     def __init__(self, firstMove=0, jeu=0, n_sim=100, profondeur=5):
