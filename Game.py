@@ -146,6 +146,12 @@ class game:
         cp = game()
         cp.board = np.copy(self.board)
         return cp.play(c)
+    def liste_playable(self):
+        li=[]
+        for i in range(4):
+            if self.playable(i):
+                li.append(i)
+        return li
     
     def game_over(self):
         """ Return True if game over """
