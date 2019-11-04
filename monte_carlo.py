@@ -8,6 +8,8 @@ from Game import *
 from Ai import *
 from time import time
 
+""" Jeu avec  la stratégie monte Carlo """
+
 jeu = game()
 
 def game_over(jeu):
