@@ -32,3 +32,16 @@ class AITest(unittest.TestCase):
         play_monte_carlo(jeu)
         self.assertIn(jeu.board,li)
         
+
+    def test_play (self):
+        g=game()
+        move=1
+        g.board=np.asarray([[2,2,4,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]])
+        self.assertFalse(game.play(g,move))
+
+
+
+    def test_game_over (self):
+        g=game()
+        g.board=np.asarray([[32,512,64,2],[16,64,256,16],[4,16,32,4],[2,8,4,2]])
+        self.assertTrue(game.game_over(g))
