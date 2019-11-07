@@ -1,86 +1,49 @@
-import numpy as np
 import random
-import matplotlib.pyplot as plt
 from Game import *
 
 
+def randomMove(jeu):
+    move = random.randint(0,3)
+    while not(jeu.play(move)):
+        move = random.randint(0,3)
 
+def playRandom(jeu):
+    while not(jeu.gameOver()):
+        randomMove(jeu)
+    return jeu.score
 
-    
-
-def chose_move_simulation(jeu,n_sim,profondeur):
-    res = []
-    for m in [0,1,2,3]:
-        score_m = 0
-        for n in range(n_sim):
-            temp = game()
-            temp.board = np.copy(jeu.board)
-            temp.score = jeu.score
-            temp.play(m)
-            
-            for p in range(profondeur):
-                rand_move = random.randint(0,4)
-                temp.play(rand_move)
-            score_m += (temp.score/(profondeur+1))
-        res.append([score_m,m])
-        
-    return res
-        
-        
-def play_move_simulation(jeu):
-    res = chose_move_simulation(jeu,100,5)
-    
-    res = sorted(res)
-    #print(res)
-    #print(res[3][-1])
-        
+def playRandom(jeu,maxMove=-1):
     i = 0
-    while i<= 3 and not(jeu.play(res[3-i][-1])):
-        i+=1
-    if i<= 3:
-        return True,i
-    else:
-        return False,i
-    
+    while not(jeu.gameOver()) and (i <= maxMove or maxMove < 0):
+        randomMove(jeu)
+        i += 1
+    return jeu.score
 
-def stupid_strat(jeu):
-    for i in range(4):
-        if jeu.playable(i):
-            return i
-    raise "Pas de coup possible"
-
-""" --- Stratégie monte carlo --- """
-
-def monte_carlo(jeu,nsim):
-    res = []
-    for i in jeu.liste_playable:
-        cp = game()
-        cp.board = np.copy(jeu.board)
-        scores = []
-        for n in range(nsim):
-            cp.board = np.copy(jeu.board)
-            coups = np.random.randint(0,4,1000)
-            c = 0
-            while not(cp.game_over()):
-                cp.play(coups[c%1000])
-                c += 1
-            scores.append(cp.score)
-        res.append((np.mean(scores),i))
-    res = sorted(res)
-    print(res)
-    return res[-1][1]
-    raise "Pas jouable"
-
-def play_monte_carlo(nsim=100,aff=True):
-    jeu = game()
-    while not(jeu.game_over()):
+def monteCarloMove(jeu,nsim,prof):
+    averages = [0,0,0,0]
+    test = game()
+    for firstMove in range(4):
+        for i in range(nsim):
+            test.copyGame(jeu)
+            if not(test.gameOver()):
+                test.play(firstMove)
+                averages[firstMove] += playRandom(test,prof)/nsim
+            
+    attempt = 0
+    im = 0
+    sucess = False
+    while (attempt <=4 and sucess == False):
+        for i in range(4):
+            if averages[i] > averages[im]:
+                im = i
+        averages[im] = 0
+        attempt += 1
+        sucess = jeu.play(im)
+def playMonteCarlo(jeu,nsim=100,prof=-1,aff=True):
+    while not(jeu.gameOver()):
         if aff:
-            print(jeu.board)
-        decision = monte_carlo(jeu,nsim) # VALID DECISION
-        jeu.play(decision)
-    if aff:
-        print(jeu.board)
-        print(jeu.score)
+            jeu.show()
+            print(jeu.score)
+        monteCarloMove(jeu,nsim,prof)
+    return jeu.score
     
-  
-

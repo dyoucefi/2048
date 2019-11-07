@@ -1,17 +1,14 @@
-import pygame
-from pygame.locals import *
-import numpy as np
-import random
 import matplotlib.pyplot as plt
 import importlib
 from Game import *
 from Ai import *
-from time import time
-
-""" Jeu avec  la stratégie monte Carlo """
+import random
 
 jeu = game()
+playMonteCarlo(jeu,nsim=50,prof=6)
+
+
+    
 
 
 
-play_monte_carlo()
