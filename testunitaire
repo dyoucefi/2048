@@ -5,30 +5,35 @@ import unittest
 class AITest(unittest.TestCase):
 
 
+    def test_play (self):
+        g=game()
+        move=1
+        g.board=np.asarray([[2,2,4,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]])
+        self.assertFalse(game.play(g,move))
 
-    def test_montecarloredux(self):
+
+
+    def test_game_over (self):
+        g=game()
+        g.board=np.asarray([[32,512,64,2],[16,64,256,16],[4,16,32,4],[2,8,4,2]])
+        self.assertTrue(game.game_over(g))
+
+
+        
+    def test_playmontecarlo(self):
         jeu=game()
         li=[]
         for j in range(4):
-            gj= game()
-            gj.board=jeu.board
-            gj.score=jeu.score
-            if gj.playable(j):
-                gj.play(j):
-                    li.append(gj.board)
-        play_move_simulation(jeu)
-        self.assertIn(jeu.board,li)
+            for j in range(4):
+            if jeu.play(j):
+                gj= game()
+                gj.board=jeu.board
+                gj.score=jeu.score
+                gj.play(j)
+                li.append(gj.board)
         
-    def test_montecarlo(self):
-        jeu=game()
-        li=[]
-        for j in range(4):
-            gj= game()
-            gj.board=jeu.board
-            gj.score=jeu.score
-            if gj.playable(j):
-                gj.play(j):
-                    li.append(gj.board)
-        play_monte_carlo(jeu)
+        playMonteCarlo(jeu)
         self.assertIn(jeu.board,li)
-        
+    
+    
+    
